@@ -209,18 +209,18 @@ import RxSwift
 //    searchString.value = "BANana"
 //    searchString.value = "Apple"
 //}
-//exampleOf(description: "takeWhile")
-//{
-//    print("Wolo")
-//    let disposeBag =  DisposeBag()
-//    let numbers = Observable.of(1,2,3,4,3,2,1)
-//    
-//    numbers.takeWhile{ $0 < 4 }.subscribe(onNext:
-//        {
-//             print($0)
-//    })
-//    .addDisposableTo(disposeBag)
-//}
+exampleOf(description: "takeWhile")
+{
+    print("Wolo")
+    let disposeBag =  DisposeBag()
+    let numbers = Observable.of(1,2,3,4,3,2,1)
+    
+    numbers.takeWhile{ $0 < 4 }.subscribe(onNext:
+        {
+             print($0)
+    })
+    .addDisposableTo(disposeBag)
+}
 
 
 exampleOf(description: "startWith")
@@ -243,5 +243,30 @@ exampleOf(description: "")
     
     Observable.of(subject1, subject2).merge()
         .subscribe(onNext: { print($0) })
+    
+    subject1.onNext("W")
+    subject1.onNext("P")
+    subject2.onNext("A")
+    subject2.onNext("B")
+    subject1.onNext("O")
+    subject2.onNext("L")
+}
+
+exampleOf(description: "zip"){
+    let disposeBag = DisposeBag()
+    
+    let stringSubject = PublishSubject<String>()
+    let intSubject = PublishSubject<Int>()
+    
+    Observable.zip(stringSubject  , intSubject){
+        stringElement , intElement in "\(stringElement) \(intElement)"
+        }.subscribe(onNext:{
+            print($0)
+        })
+    stringSubject.onNext("A")
+    stringSubject.onNext("B")
+    
+    intSubject.onNext(1)
+    intSubject.onNext(2)
 }
 
